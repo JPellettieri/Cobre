@@ -12,10 +12,8 @@ Datos <- Datos %>%
   mutate(across(-c(id, Medio, Inoculo), as.numeric))
 
 Dvivo <- Datos%>% filter(Medio == "in vivo")
-VRVivo <- Dvivo[, c("PVastago", "Frec", "Int","PRaiz", "CuVastago", "CuRaiz", 
-                  "PSuelo", "BCTallo", "FT", "CuSuelo", 
-                  "BCRaiz", "Lhif", "gt", "gfe", "p seco raiz", "p s aereo", 
-                  "adherido", "EE", "PStotal")]
+VRVivo <- Dvivo[, c("CuSuelo","PSuelo", "CuRaiz", "PRaiz", "CuVastago", "PVastago", "BCRaiz" , "BCTallo", "FT",  
+                    "Frec", "Int", "Lhif", "gt", "gfe","adherido", "p seco raiz", "p s aereo" , "PStotal")]
 summary(Dvivo)
 
 #matriz de correlacion

@@ -6,7 +6,7 @@ Datos <- read_excel("datos paper CU.xlsx",col_names = TRUE,  sheet = "Datos")
 #formatos para que las cualis esten como factores
 
 Datos <- Datos %>%
-  mutate(across(c(gfe, gt, Fe, Zn, Cr, Ni, Pb, `Cu Suelo`, `P Suelo`, Cu, `%F`,	`%I`, `Cu Suelo`)
+  mutate(across(c(gfe, gt, Fe, Zn, Cr, Ni, Pb, `CuSuelo`, `P Suelo`, Cu, `%F`,	`%I`, `Cu Suelo`)
                 ~as.numeric(gsub(",", ".", .))))
 Datos <- Datos %>%
   mutate(
@@ -86,7 +86,7 @@ Datos %>%
 
 Dvivo <- Datos%>% filter(Medio == "In vivo")
 VRvivo <- Dvivo %>%
-  select( Cu, gfe, gt,Fe, `Cu Suelo`, `P Suelo`, 	`Long Hih`, `%F`,	`%I`, `Cu Suelo`, `Cu Vástago`,    `Cu Raiz`, `P Vástago`,  `P Suelo` , `Cu Suelo`, `P Raíz`,  `BC Raiz`,   `BC Tallo`, `FT`)
+  select( Cu, gfe, gt,Fe, `PSuelo`, 	`Long Hih`, `%F`,	`%I`, `CuSuelo`, `CuVastago`,    `CuRaiz`, `PVastago`,  `PSuelo` , `PRaiz`,  `BCRaiz`,   `BCTallo`, `FT`, `PStotal`)
 summary(Dvivo)
 library(corrplot)
 cor_mat <- cor(VR, use = "complete.obs")

@@ -224,16 +224,20 @@ VivoInt$grafico
 VivoInt$medias
 
 #Analisis con interaccion Cu Inoculo
+
+#GT: Significativamente mayor concentracion de glomalina total en suelos Cu2 cuando estan inoculados
 VivoGT <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "gt",  grupo = "Inoculo",  titulo = "Medias Estimadas de GT")
 VivoGT$grafico
 VivoGT$medias
 
+#GFE: siempre sig mayor en suelo inoculado en contraste con suelo sin inoculo.
 VivoGfe <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "gfe",  grupo = "Inoculo",  titulo = "Medias Estimadas de Gfe")
 VivoGfe$grafico
 VivoGfe$medias
 
+#Pesos secos: No se obbservan efectos sobre el desarrollo de la planta
 VivoPStotal <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "PStotal",  grupo = "Inoculo",  titulo = "Medias Estimadas de peso seco total")
 VivoPStotal$grafico
@@ -259,7 +263,7 @@ Vivoad <- analisis_interaccion_gamma(
 Vivoad$grafico
 Vivoad$medias
 
-
+#Bioacumulacion: tendencia a menor bioacumulacion en Cu 2 inoculado en comparacion con sin inocular, estas tend tienen sig marginal en Tallo.
 VivoBCr <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "BCRaiz",  grupo = "Inoculo",  titulo = "Medias Estimadas de bioacumulacion en raiz")
 VivoBCr$grafico
@@ -269,3 +273,40 @@ VivoBCv <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "BCTallo",  grupo = "Inoculo",  titulo = "Medias Estimadas de bioacumulacion en vastago")
 VivoBCv$grafico
 VivoBCv$medias
+
+#CU: Mas Cu en suelo (.) y mas cu en raiz (*) cuando la planta esta inoculada (en suelos con Cu 2)
+VivoCv <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "CuVastago",  grupo = "Inoculo",  titulo = "Medias Estimadas de cobre en vastago")
+VivoCv$grafico
+VivoCv$medias
+
+VivoCr <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "CuRaiz",  grupo = "Inoculo",  titulo = "Medias Estimadas de cobre en raiz")
+VivoCr$grafico
+VivoCr$medias
+
+VivoCs <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "CuSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de cobre en suelo")
+VivoCs$grafico
+VivoCs$medias
+
+VivoEE <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "EE",  grupo = "Inoculo",  titulo = "Medias Estimadas de Eficiencia de extracion ")
+VivoEE$grafico
+VivoEE$medias # Tendencia a mayor EE en Cu con inoculo
+
+## Fosfato: No se observan efectos sobre la absorcion del fosfato del suelo
+VivoPs <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "PSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas fosfato en suelo")
+VivoPStotal$grafico
+VivoPStotal$medias
+
+VivoPR <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "PRaiz",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosfato en raiz")
+VivoPR$grafico
+VivoPR$medias
+
+VivoPV <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "PVastago",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosfato en vastago")
+VivoPV$grafico
+VivoPV$medias

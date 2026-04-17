@@ -311,9 +311,25 @@ VivoPV <- analisis_interaccion_gamma(
 VivoPV$grafico
 VivoPV$medias
 
+
+
+
+
+
 #################################################################
 ## In Vitro##
-Dvitro
+Dvitro <- Datos%>% filter(Medio == "in vitro")
 DvitroInc <- Dvitro%>% filter(Inoculo == 1)
 
+VitroFre<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Frec",  titulo = "Frecuencia in vivo")
+VitroFre$grafico
+VitroFre$medias
 
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Int",  titulo = "Intensidad in vivo")
+VitroInt$grafico
+VitroInt$medias
+
+VitroInt <- analisis_unifactorial_gamma (data =DvitroInc, x = "Cu", y = "Lhif",  titulo = "Largo hifal in vivo")
+VitroInt$grafico
+
+VitroInt$medias

@@ -310,3 +310,10 @@ VivoPV <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "PVastago",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosfato en vastago")
 VivoPV$grafico
 VivoPV$medias
+
+#################################################################
+## In Vitro##
+Dvitro
+DvitroInc <- Dvitro%>% filter(Inoculo == 1)
+
+

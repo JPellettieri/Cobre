@@ -218,3 +218,4 @@ ggplot(DVitro, aes(x = Inoculo, y = `PSuelo`, fill = Inoculo)) +
   facet_wrap(~ Cu) +
   labs(x = "Inóculo", y = "PSuelo", title= "In Vitro") +
   theme_minimal()
+

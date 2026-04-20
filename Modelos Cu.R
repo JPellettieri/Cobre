@@ -4,69 +4,82 @@ library(emmeans)
 library(ggplot2)
 library(FSA)   
 library(rcompanion)
-
-
+library(readxl)
+library(dplyr)
 library(glmmTMB)
 library(emmeans)
 library(ggplot2)
 
+## Datos ##
+setwd("~/cobre/Cobre")
+Datos <- read_excel("BD Cobre.xlsx",col_names = TRUE)
+Datos$Inoculo <- as.factor(Datos$Inoculo)
+Datos$Cu <- as.factor(Datos$Cu)
+Datos <- Datos %>%
+  mutate(across(-c(id, Medio, Inoculo, Cu), as.numeric))
+
+Dvivo <- Datos%>% filter(Medio == "in vivo")
+DvivoInc <- Dvivo%>% filter(Inoculo == 1)
+
+Dvitro <- Datos%>% filter(Medio == "in vitro")
+DvitroInc <- Dvitro%>% filter(Inoculo == 1)
 
 #########Modelado ##########
-# 1. Ajuste del modelo con interacción (*)
-# Esto analiza el efecto de Cu, de Inoculo y si el Inoculo cambia el efecto del Cu
-modelo_interaccion <- glm( gt ~ Cu * Inoculo, 
-                          data = Dvivo, 
-                          family = Gamma(link = "log"))
-# 2 Supuestos (dharma)
-residuos <- simulateResiduals(fittedMod = modelo_interaccion)
-plot(residuos)
-
-#3 Summary
-summary (modelo_interaccion)
-
-#4. Obtención de Medias Estimadas (EMMeans)
-# "type = response" vuelve a la escala original de bioacumulación
-em_med <- emmeans(modelo_interaccion, ~ Cu|Inoculo, type = "response")
-em_df <- as.data.frame(em_med)
-print(em_df)
-# 5 contrastes
-em_contrastes <- emmeans(modelo_interaccion, ~ Inoculo | Cu, type = "response") # entre con y sin inoculo dentro de cada nivel de cobre
-comparaciones <- contrast(em_contrastes, method = "pairwise")
-comp_df <- as.data.frame(comparaciones)
-
-# agrego sig al grafico
-get_stars <- function(p) {
-  if (p < 0.001) return("***")
-  if (p < 0.01)  return("**")
-  if (p < 0.05)  return("*")
-  if (p < 0.1)   return(".")
-  return("ns")
-}
-comp_df$stars <- sapply(comp_df$p.value, get_stars)
-
-em_df <- em_df %>%
-  left_join(comp_df[, c("Cu", "stars")], by = "Cu")
-
-# 6. Gráfico con geom_text para los asteriscos
-ggplot(em_df, aes(x = Cu, y = response, group = Inoculo, color = Inoculo)) +
-  # Usamos barras en lugar de puntos si prefieres (ya que mencionaste barras)
-  # Si prefieres puntos, mantén geom_point
-  geom_bar(aes(fill = Inoculo), stat = "identity", position = position_dodge(0.9), alpha = 0.7) +
-  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), 
-                width = 0.2, position = position_dodge(0.9), color = "black") +
-  # Añadir asteriscos
-  # Calculamos y_pos para que flote sobre la barra de error más alta
-  geom_text(aes(y = upper.CL + (max(upper.CL) * 0.05), label = stars), 
-            position = position_dodge(0.9), color = "black", size = 5, fontface = "bold") +
-  theme_minimal() +
-  labs(
-    title = "Medias Estimadas de Bioacumulación",
-    subtitle = "Significancia: *** < 0.001, ** < 0.01, * < 0.05, . < 0.1",
-    y = "Media estimada (BCRaiz)",
-    x = "Concentración de Cobre"
-  ) +
-  scale_fill_brewer(palette = "Set1") +
-  scale_color_brewer
+            # # 1. Ajuste del modelo con interacción (*)
+            # # Esto analiza el efecto de Cu, de Inoculo y si el Inoculo cambia el efecto del Cu
+            # modelo_interaccion <- glm( gt ~ Cu * Inoculo, 
+            #                           data = Dvivo, 
+            #                           family = Gamma(link = "log"))
+            # # 2 Supuestos (dharma)
+            # residuos <- simulateResiduals(fittedMod = modelo_interaccion)
+            # plot(residuos)
+            # 
+            # #3 Summary
+            # summary (modelo_interaccion)
+            # 
+            # #4. Obtención de Medias Estimadas (EMMeans)
+            # # "type = response" vuelve a la escala original de bioacumulación
+            # em_med <- emmeans(modelo_interaccion, ~ Cu|Inoculo, type = "response")
+            # em_df <- as.data.frame(em_med)
+            # print(em_df)
+            # # 5 contrastes
+            # em_contrastes <- emmeans(modelo_interaccion, ~ Inoculo | Cu, type = "response") # entre con y sin inoculo dentro de cada nivel de cobre
+            # comparaciones <- contrast(em_contrastes, method = "pairwise")
+            # comp_df <- as.data.frame(comparaciones)
+            # 
+            # # agrego sig al grafico
+            # get_stars <- function(p) {
+            #   if (p < 0.001) return("***")
+            #   if (p < 0.01)  return("**")
+            #   if (p < 0.05)  return("*")
+            #   if (p < 0.1)   return(".")
+            #   return("ns")
+            # }
+            # comp_df$stars <- sapply(comp_df$p.value, get_stars)
+            # 
+            # em_df <- em_df %>%
+            #   left_join(comp_df[, c("Cu", "stars")], by = "Cu")
+            # 
+            # # 6. Gráfico con geom_text para los asteriscos
+            # ggplot(em_df, aes(x = Cu, y = response, group = Inoculo, color = Inoculo)) +
+            #   # Usamos barras en lugar de puntos si prefieres (ya que mencionaste barras)
+            #   # Si prefieres puntos, mantén geom_point
+            #   geom_bar(aes(fill = Inoculo), stat = "identity", position = position_dodge(0.9), alpha = 0.7) +
+            #   geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), 
+            #                 width = 0.2, position = position_dodge(0.9), color = "black") +
+            #   # Añadir asteriscos
+            #   # Calculamos y_pos para que flote sobre la barra de error más alta
+            #   geom_text(aes(y = upper.CL + (max(upper.CL) * 0.05), label = stars), 
+            #             position = position_dodge(0.9), color = "black", size = 5, fontface = "bold") +
+            #   theme_minimal() +
+            #   labs(
+            #     title = "Medias Estimadas de Bioacumulación",
+            #     subtitle = "Significancia: *** < 0.001, ** < 0.01, * < 0.05, . < 0.1",
+            #     y = "Media estimada (BCRaiz)",
+            #     x = "Concentración de Cobre"
+            #   ) +
+            #   scale_fill_brewer(palette = "Set1") +
+            #   scale_color_brewer
 
 
 ############ funcion para optimizar #########
@@ -143,7 +156,7 @@ analisis_interaccion_gamma <- function(data, x, y, grupo, titulo = "Análisis de
   return(list(modelo = modelo, medias = em_df, grafico = p))
 }
 
-DvivoInc <- Dvivo%>% filter(Inoculo == 1)
+
 analisis_unifactorial_gamma <- function(data, x, y, titulo = "Análisis Unifactorial") {
   
   # 1. Ajuste del modelo (Efecto simple de X)
@@ -211,6 +224,7 @@ analisis_unifactorial_gamma <- function(data, x, y, titulo = "Análisis Unifacto
   ))
 }
 
+########### in vivo #########
 VivoFre<- analisis_unifactorial_gamma (data = DvivoInc, x = "Cu", y = "Frec",  titulo = "Frecuencia in vivo")
 VivoFre$grafico
 VivoFre$medias
@@ -318,18 +332,45 @@ VivoPV$medias
 
 #################################################################
 ## In Vitro##
-Dvitro <- Datos%>% filter(Medio == "in vitro")
-DvitroInc <- Dvitro%>% filter(Inoculo == 1)
 
-VitroFre<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Frec",  titulo = "Frecuencia in vivo")
+
+VitroFre<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Frec",  titulo = "Frecuencia in vitro")
 VitroFre$grafico
 VitroFre$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Int",  titulo = "Intensidad in vivo")
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Int",  titulo = "Intensidad in vitro")
 VitroInt$grafico
 VitroInt$medias
 
-VitroInt <- analisis_unifactorial_gamma (data =DvitroInc, x = "Cu", y = "Lhif",  titulo = "Largo hifal in vivo")
+VitroInt <- analisis_unifactorial_gamma (data =DvitroInc, x = "Cu", y = "Lhif",  titulo = "Largo hifal in vitro")
 VitroInt$grafico
+VitroInt$medias # sig mayor largo hifal en cu 1 que en cu 0 y que en cu 2
 
-VitroInt$medias
+#GT:
+VitroGT <- analisis_interaccion_gamma(
+  data = Dvitro, x = "Cu", y = "gt",  grupo = "Inoculo",  titulo = "Medias Estimadas de GT in vitro")
+VitroGT$grafico
+VitroGT$medias
+
+#GFE: 
+VitroGfe <- analisis_interaccion_gamma(
+  data = Dvitro, x = "Cu", y = "gfe",  grupo = "Inoculo",  titulo = "Medias Estimadas de Gfe in vitro")
+VitroGfe$grafico
+VitroGfe$medias #no hay dif en gfe si en gt
+
+#Esporas
+VitroEsp<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Esporas",  titulo = "Esporas in vitro")
+VitroEsp$grafico
+VitroEsp$medias #caen en cu2
+
+#Cu en suelo: 
+VitroCuS <- analisis_interaccion_gamma(
+  data = Dvitro, x = "Cu", y = "CuSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de cobre en suelo in vitro")
+VitroCuS$grafico
+VitroCuS$medias #ns
+
+#fosforo en suelo: 
+VitroPSuelo <- analisis_interaccion_gamma(
+  data = Dvitro, x = "Cu", y = "PSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosforo en suelo in vitro")
+VitroPSuelo$grafico
+VitroPSuelo$medias # sig menor en cU2 inooculado contrastando con sin inocular

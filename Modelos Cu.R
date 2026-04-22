@@ -310,10 +310,10 @@ VivoEE$grafico
 VivoEE$medias # Tendencia a mayor EE en Cu con inoculo
 
 ## Fosfato: No se observan efectos sobre la absorcion del fosfato del suelo
-VivoPs <- analisis_interaccion_gamma(
+VivoPs<- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "PSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas fosfato en suelo")
-VivoPStotal$grafico
-VivoPStotal$medias
+VivoPs$grafico
+VivoPs$medias
 
 VivoPR <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "PRaiz",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosfato en raiz")
@@ -403,7 +403,7 @@ VitroEsp<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Esporas
 VitroEsp$grafico
 VitroEsp$medias
 
-## Contraste entre esporas de cada compartimiento
+###### Contraste entre esporas de cada compartimiento #####
 library(tidyr)
 library(dplyr)
 
@@ -419,10 +419,11 @@ modelo <- glmer(Esporas ~ Tipo*Cu + (1 | id),
 library(emmeans)
 
 emmeans(modelo, pairwise ~ Tipo|Cu)
-
+######
 #Cu en suelo: 
 VitroCuS <- analisis_interaccion_gamma(
-  data = Dvitro, x = "Cu", y = "CuSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de cobre en suelo in vitro")
+  data = 
+    Dvitro, x = "Cu", y = "CuSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de cobre en suelo in vitro")
 VitroCuS$grafico
 VitroCuS$medias #ns
 

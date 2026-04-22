@@ -342,6 +342,38 @@ VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Int", 
 VitroInt$grafico
 VitroInt$medias
 
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Arb",  titulo = "Arb %")
+VitroInt$grafico
+VitroInt$medias
+
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Vesic",  titulo = "Vesiculas %")
+VitroInt$grafico
+VitroInt$medias
+
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Entrada",  titulo = "Entrada")
+VitroInt$grafico
+VitroInt$medias
+
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioExtra",  titulo = "Micelio Extraradicular")
+VitroInt$grafico #El darma da horrible
+VitroInt$medias
+
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioMM",  titulo = "MicelioMM")
+VitroInt$grafico
+VitroInt$medias
+
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioS",  titulo = "MicelioS")
+VitroInt$grafico
+VitroInt$medias
+
+VitroCuS <- analisis_interaccion_gamma(
+  data = Dvitro, x = "Cu", y = "LargoRaizMM",  grupo = "Inoculo",  titulo = "LargoRaizMM In vitro")
+VitroCuS$grafico
+VitroCuS$medias
+
+
+
+
 VitroInt <- analisis_unifactorial_gamma (data =DvitroInc, x = "Cu", y = "Lhif",  titulo = "Largo hifal in vitro")
 VitroInt$grafico
 VitroInt$medias # sig mayor largo hifal en cu 1 que en cu 0 y que en cu 2
@@ -359,9 +391,34 @@ VitroGfe$grafico
 VitroGfe$medias #no hay dif en gfe si en gt
 
 #Esporas
-VitroEsp<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Esporas",  titulo = "Esporas in vitro")
+VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "EsporasIntraRad",  titulo = "esporas intra radiculares  %")
+VitroInt$grafico
+VitroInt$medias
+
+VitroEsp<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "EsporasS",  titulo = "Esporas suelo in vitro")
 VitroEsp$grafico
 VitroEsp$medias #caen en cu2
+
+VitroEsp<- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "EsporasMM",  titulo = "Esporas medio raiz in vitro")
+VitroEsp$grafico
+VitroEsp$medias
+
+## Contraste entre esporas de cada compartimiento
+library(tidyr)
+library(dplyr)
+
+Dlong <- DvitroInc %>%
+  pivot_longer(cols = c(EsporasS, EsporasMM),
+               names_to = "Tipo",
+               values_to = "Esporas")
+library(lme4)
+
+modelo <- glmer(Esporas ~ Tipo*Cu + (1 | id),
+                data = Dlong,
+                family = Gamma(link = "log"))
+library(emmeans)
+
+emmeans(modelo, pairwise ~ Tipo|Cu)
 
 #Cu en suelo: 
 VitroCuS <- analisis_interaccion_gamma(
@@ -374,3 +431,4 @@ VitroPSuelo <- analisis_interaccion_gamma(
   data = Dvitro, x = "Cu", y = "PSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosforo en suelo in vitro")
 VitroPSuelo$grafico
 VitroPSuelo$medias # sig menor en cU2 inooculado contrastando con sin inocular
+

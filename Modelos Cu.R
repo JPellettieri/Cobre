@@ -1,7 +1,6 @@
 library(DHARMa)
 library(car)
 library(emmeans)
-library(ggplot2)
 library(FSA)   
 library(rcompanion)
 library(readxl)
@@ -12,7 +11,7 @@ library(ggplot2)
 
 ## Datos ##
 setwd("~/cobre/Cobre")
-Datos <- read_excel("BD Cobre.xlsx",col_names = TRUE)
+Datos <- read_excel("BD Cobre.xlsx", sheet ="Tabla general",col_names = TRUE)
 Datos$Inoculo <- as.factor(Datos$Inoculo)
 Datos$Cu <- as.factor(Datos$Cu)
 Datos <- Datos %>%

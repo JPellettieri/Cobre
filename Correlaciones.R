@@ -23,15 +23,16 @@ library(Hmisc)
 DvitroInc
 library(dplyr)
 
-D_num <- DvitroInc %>%
-  select(where(is.numeric))
-D_num <- D_num %>% select( -Lhif) #-id,
+D_num <- DvitroInc[, sapply(DvitroInc, is.numeric)]
+D_num <- D_num[, colSums(is.na(D_num)) < nrow(D_num)] # eliminar columnas completamente vacías
+D_num <- subset(D_num, select = -c(`Lhif`,id))
+
 res <- rcorr(as.matrix(D_num), type = "spearman")
 res
 cor_mat <- res$r      # correlaciones
 p_mat   <- res$P      # p-values
 
-threshold_r <- 0.6
+threshold_r <- 0.3 #la correlacion minma necesaria para que se grafique en el mapa
 threshold_p <- 0.05   # p valor marginal como minimo
 
 valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
@@ -61,11 +62,9 @@ g <- delete_vertices(g, degree(g) == 0) #Elimino nodos aislados
 library(ggraph)
 
 
-# 8. Agrupación ecológica
-V(g)$grupo <- ifelse(grepl("Suelo", V(g)$name), "Suelo",
-                     ifelse(grepl("Raiz", V(g)$name), "Raíz",
-                            ifelse(grepl("Vastago|Tallo|aereo", V(g)$name), "Vástago",
-                                   "Fisiológico")))
+# 8. Agrupación 
+V(g)$grupo <- ifelse(grepl("Suelo|S|Zn|Fe|gt|gfe", V(g)$name), "Suelo",
+                      "raiz")
 
 ggraph(g, layout = "fr") +
   geom_edge_link(aes(edge_width = abs(value),
@@ -76,6 +75,70 @@ ggraph(g, layout = "fr") +
   scale_edge_color_manual(values = c("red", "blue")) +
   scale_edge_width(range = c(0.5, 2)) +
   theme_void()
+
+##### Repito grafo con correlaciones significativas pero in vivo
+
+DvivoInc
+
+library(dplyr)
+
+D_num <- DvivoInc[, sapply(DvivoInc, is.numeric)]
+D_num <- D_num[, colSums(is.na(D_num)) < nrow(D_num)] # eliminar columnas completamente vacías
+D_num <- subset(D_num, select = -c(`largo vasta`))# eliminar columnas id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal 
+colnames(D_num) <- make.names(trimws(colnames(D_num)))
+res <- rcorr(as.matrix(D_num), type = "spearman")
+res
+cor_mat <- res$r      # correlaciones
+p_mat   <- res$P      # p-values
+
+threshold_r <- 0.3
+threshold_p <- 0.05   # p valor marginal como minimo
+
+valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
+#Filtro la matriz
+cor_mat[!valid] <- 0
+cor_mat[is.na(cor_mat)] <- 0
+
+
+library(reshape2)
+
+df_cor <- melt(cor_mat)
+
+# limpiar tipos
+df_cor$Var1 <- as.character(df_cor$Var1)
+df_cor$Var2 <- as.character(df_cor$Var2)
+
+# quedarte solo con relaciones reales
+df_cor <- subset(df_cor, Var1 != Var2 & value != 0)
+
+# eliminar duplicados
+df_cor <- df_cor[df_cor$Var1 < df_cor$Var2, ]
+
+
+library(igraph)
+
+g <- graph_from_data_frame(df_cor, directed = FALSE)
+g <- delete_vertices(g, degree(g) == 0) #Elimino nodos aislados
+library(ggraph)
+
+
+# 8. Agrupación 
+V(g)$grupo <- ifelse(grepl("Suelo", V(g)$name), "Suelo",
+                     ifelse(grepl("Raiz|raiz|FT", V(g)$name), "Raíz",
+                            ifelse(grepl("Vastago|Tallo|aereo", V(g)$name), "Vástago",
+                                   "Micorriza")))
+
+
+ggraph(g, layout = "fr") +
+  geom_edge_link(aes(edge_width = abs(value),
+                     color = value > 0),
+                 alpha = 0.8) +
+  geom_node_point(aes(color = grupo), size = 6) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 4) +
+  scale_edge_color_manual(values = c("red", "blue")) +
+  scale_edge_width(range = c(0.5, 2)) +
+  theme_void()
+
 
 
 

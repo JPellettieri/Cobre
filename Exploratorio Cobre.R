@@ -150,9 +150,8 @@ ggplot(Dvivo, aes(x = Inoculo, y = `PStotal`, fill = Inoculo)) +
 ##### IN VITRO  ######
 #coorplot in vitro
 DVitro <- Datos%>% filter(Medio == "in vitro")
-VRVitro <- DVitro[, c( "Frec", "Int", "Esporas", "Fe", 
-                       "PSuelo", "CuSuelo", 
-                       "Lhif", "gt", "gfe")]
+VRVitro <- DVitro[, c( "Frec", "Int", "Arb","Vesic" ,"EsporasS", "EsporasMM", "EsporasIntraRad", "MicelioMM", "MicelioS",
+                       "PSuelo", "CuSuelo", "Fe","gt", "gfe")]
 summary(DVitro)
 summary(VRVitro)
 #matriz de correlacion

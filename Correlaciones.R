@@ -15,3 +15,118 @@ library(lavaan)
 modelo <- ' VarRespuesta ~ b*VarIndependiente + c*VarMediadora
             VarMediadora ~ a*VarIndependiente 
             indirecto := a*c '
+
+
+
+######
+library(Hmisc)
+DvitroInc
+library(dplyr)
+
+D_num <- DvitroInc %>%
+  select(where(is.numeric))
+D_num <- D_num %>% select( -Lhif) #-id,
+res <- rcorr(as.matrix(D_num), type = "spearman")
+res
+cor_mat <- res$r      # correlaciones
+p_mat   <- res$P      # p-values
+
+threshold_r <- 0.6
+threshold_p <- 0.05   # p valor marginal como minimo
+
+valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
+#Filtro la matriz
+cor_mat[!valid] <- 0
+cor_mat[is.na(cor_mat)] <- 0
+
+
+library(reshape2)
+
+df_cor <- melt(cor_mat)
+
+# limpiar tipos
+df_cor$Var1 <- as.character(df_cor$Var1)
+df_cor$Var2 <- as.character(df_cor$Var2)
+
+# quedarte solo con relaciones reales
+df_cor <- subset(df_cor, Var1 != Var2 & value != 0)
+
+# eliminar duplicados
+df_cor <- df_cor[df_cor$Var1 < df_cor$Var2, ]
+
+library(igraph)
+
+g <- graph_from_data_frame(df_cor, directed = FALSE)
+g <- delete_vertices(g, degree(g) == 0) #Elimino nodos aislados
+library(ggraph)
+
+
+# 8. Agrupación ecológica
+V(g)$grupo <- ifelse(grepl("Suelo", V(g)$name), "Suelo",
+                     ifelse(grepl("Raiz", V(g)$name), "Raíz",
+                            ifelse(grepl("Vastago|Tallo|aereo", V(g)$name), "Vástago",
+                                   "Fisiológico")))
+
+ggraph(g, layout = "fr") +
+  geom_edge_link(aes(edge_width = abs(value),
+                     color = value > 0),
+                 alpha = 0.8) +
+  geom_node_point(aes(color = grupo), size = 6) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 4) +
+  scale_edge_color_manual(values = c("red", "blue")) +
+  scale_edge_width(range = c(0.5, 2)) +
+  theme_void()
+
+
+
+###############
+# Paquetes
+# install.packages(c("igraph", "ggraph", "tidygraph", "reshape2"))
+library(igraph)
+library(ggraph)
+library(tidygraph)
+library(reshape2)
+
+# 1. Matriz de correlación
+cor_VRVivo
+cor_VRVitro
+# 1. Asegurar matriz numérica limpia
+#cor_mat <- as.matrix(cor_VRVivo)
+cor_mat <- as.matrix(cor_VRVitro)
+# 2. Eliminar posibles NA (clave)
+cor_mat[is.na(cor_mat)] <- 0
+
+# 3. Formato largo
+df_cor <- melt(cor_mat)
+
+# 4. Convertir a character (evita error de factores)
+df_cor$Var1 <- as.character(df_cor$Var1)
+df_cor$Var2 <- as.character(df_cor$Var2)
+
+# 5. Filtrar
+threshold <- 0.6   # te recomiendo más estricto para este dataset
+
+df_cor <- subset(df_cor, Var1 != Var2 & abs(value) > threshold)
+
+# 6. Eliminar duplicados
+df_cor <- df_cor[df_cor$Var1 < df_cor$Var2, ]
+
+# 7. Crear grafo
+g <- graph_from_data_frame(df_cor, directed = FALSE)
+
+# 8. Agrupación ecológica
+V(g)$grupo <- ifelse(grepl("Suelo", V(g)$name), "Suelo",
+                     ifelse(grepl("Raiz", V(g)$name), "Raíz",
+                            ifelse(grepl("Vastago|Tallo|aereo", V(g)$name), "Parte aérea",
+                                   "Fisiológico")))
+
+# 9. Plot
+ggraph(g, layout = "fr") +
+  geom_edge_link(aes(edge_alpha = abs(value),
+                     edge_width = abs(value),
+                     color = value > 0)) +
+  geom_node_point(aes(color = grupo), size = 6) +
+  geom_node_text(aes(label = name), repel = TRUE, size = 4) +
+  scale_edge_color_manual(values = c("red", "blue")) +
+  scale_edge_width(range = c(0.5, 2)) +
+  theme_void()

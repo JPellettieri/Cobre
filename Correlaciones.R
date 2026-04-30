@@ -32,7 +32,7 @@ res
 cor_mat <- res$r      # correlaciones
 p_mat   <- res$P      # p-values
 
-threshold_r <- 0.3 #la correlacion minma necesaria para que se grafique en el mapa
+threshold_r <- 0.2 #la correlacion minma necesaria para que se grafique en el mapa
 threshold_p <- 0.05   # p valor marginal como minimo
 
 valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
@@ -40,7 +40,7 @@ valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
 cor_mat[!valid] <- 0
 cor_mat[is.na(cor_mat)] <- 0
 
-
+p_mat
 library(reshape2)
 
 df_cor <- melt(cor_mat)
@@ -82,16 +82,16 @@ DvivoInc
 
 library(dplyr)
 
-D_num <- DvivoInc[, sapply(DvivoInc, is.numeric)]
-D_num <- D_num[, colSums(is.na(D_num)) < nrow(D_num)] # eliminar columnas completamente vacías
-D_num <- subset(D_num, select = -c(`largo vasta`))# eliminar columnas id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal 
-colnames(D_num) <- make.names(trimws(colnames(D_num)))
-res <- rcorr(as.matrix(D_num), type = "spearman")
+D_VIVO <- DvivoInc[, sapply(DvivoInc, is.numeric)]
+D_VIVO <- D_VIVO[, colSums(is.na(D_VIVO)) < nrow(D_VIVO)] # eliminar columnas completamente vacías
+D_VIVO <- subset(D_VIVO, select = -c(id,PStotal,`largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal))# eliminar columnas `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal 
+colnames(D_VIVO) <- make.names(trimws(colnames(D_VIVO)))
+res <- rcorr(as.matrix(D_VIVO), type = "spearman")
 res
 cor_mat <- res$r      # correlaciones
 p_mat   <- res$P      # p-values
 
-threshold_r <- 0.3
+threshold_r <- 0.2
 threshold_p <- 0.05   # p valor marginal como minimo
 
 valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
@@ -133,6 +133,9 @@ ggraph(g, layout = "fr") +
   geom_edge_link(aes(edge_width = abs(value),
                      color = value > 0),
                  alpha = 0.8) +
+  geom_edge_text(aes(label = round(value, 2)), 
+                 repel = TRUE, 
+                 size = 3) +
   geom_node_point(aes(color = grupo), size = 6) +
   geom_node_text(aes(label = name), repel = TRUE, size = 4) +
   scale_edge_color_manual(values = c("red", "blue")) +
@@ -193,3 +196,4 @@ ggraph(g, layout = "fr") +
   scale_edge_color_manual(values = c("red", "blue")) +
   scale_edge_width(range = c(0.5, 2)) +
   theme_void()
+

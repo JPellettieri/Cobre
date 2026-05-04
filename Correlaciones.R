@@ -67,9 +67,12 @@ V(g)$grupo <- ifelse(grepl("Suelo|S|Zn|Fe|gt|gfe", V(g)$name), "Suelo",
                       "raiz")
 
 ggraph(g, layout = "fr") +
-  geom_edge_link(aes(edge_width = abs(value),
+  geom_edge_link(aes(edge_width = abs(value), repel = TRUE,
                      color = value > 0),
                  alpha = 0.8) +
+  geom_edge_link(aes(label = round(value, 2)),
+                 angle_calc = 'along',
+                 label_dodge = unit(2.5, 'mm')) +
   geom_node_point(aes(color = grupo), size = 6) +
   geom_node_text(aes(label = name), repel = TRUE, size = 4) +
   scale_edge_color_manual(values = c("red", "blue")) +
@@ -127,20 +130,26 @@ V(g)$grupo <- ifelse(grepl("Suelo", V(g)$name), "Suelo",
                      ifelse(grepl("Raiz|raiz|FT", V(g)$name), "Raíz",
                             ifelse(grepl("Vastago|Tallo|aereo", V(g)$name), "Vástago",
                                    "Micorriza")))
-
-
 ggraph(g, layout = "fr") +
-  geom_edge_link(aes(edge_width = abs(value),
+  geom_edge_link(aes(edge_width = abs(value), repel = TRUE,
                      color = value > 0),
                  alpha = 0.8) +
-  geom_edge_text(aes(label = round(value, 2)), 
-                 repel = TRUE, 
-                 size = 3) +
+  geom_edge_link(aes(label = round(value, 2)),
+                 angle_calc = 'along',
+                 label_dodge = unit(2.5, 'mm')) +
+  
   geom_node_point(aes(color = grupo), size = 6) +
   geom_node_text(aes(label = name), repel = TRUE, size = 4) +
-  scale_edge_color_manual(values = c("red", "blue")) +
+  
+  scale_edge_color_manual(values = c("red", "blue"),
+                          labels = c("Negativa", "Positiva"),
+                          name = "Relación") +
+  
   scale_edge_width(range = c(0.5, 2)) +
   theme_void()
+install.packages("ggraph")
+
+
 
 
 
@@ -191,6 +200,10 @@ ggraph(g, layout = "fr") +
   geom_edge_link(aes(edge_alpha = abs(value),
                      edge_width = abs(value),
                      color = value > 0)) +
+  geom_edge_link(aes(label = round(value, 2)),
+                 angle_calc = 'along',
+                 label_dodge = unit(2.5, 'mm')) +
+  
   geom_node_point(aes(color = grupo), size = 6) +
   geom_node_text(aes(label = name), repel = TRUE, size = 4) +
   scale_edge_color_manual(values = c("red", "blue")) +

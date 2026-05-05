@@ -134,6 +134,7 @@ ggraph(g, layout = "fr") +
   geom_edge_link(aes(edge_width = abs(value), repel = TRUE,
                      color = value > 0),
                  alpha = 0.8) +
+  #geom_edge_parallel(aes(colour = year)) colour= tratamiento de cobre
   geom_edge_link(aes(label = round(value, 2)),
                  angle_calc = 'along',
                  label_dodge = unit(2.5, 'mm')) +
@@ -147,8 +148,9 @@ ggraph(g, layout = "fr") +
   
   scale_edge_width(range = c(0.5, 2)) +
   theme_void()
-install.packages("ggraph")
 
+
+  
 
 
 

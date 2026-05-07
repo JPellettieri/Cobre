@@ -240,19 +240,19 @@ VivoInt$medias
 
 #GT: Significativamente mayor concentracion de glomalina total en suelos Cu2 cuando estan inoculados
 VivoGT <- analisis_interaccion_gamma(
-  data = Dvivo, x = "Cu", y = "gt",  grupo = "Inoculo",  titulo = "Medias Estimadas de GT")
+  data = Dvivo, x = "Cu", y = "gt",  grupo = "Inoculo",  titulo = "Medias Estimadas de GT in vivo")
 VivoGT$grafico
 VivoGT$medias
 
 #GFE: siempre sig mayor en suelo inoculado en contraste con suelo sin inoculo.
 VivoGfe <- analisis_interaccion_gamma(
-  data = Dvivo, x = "Cu", y = "gfe",  grupo = "Inoculo",  titulo = "Medias Estimadas de Gfe")
+  data = Dvivo, x = "Cu", y = "gfe",  grupo = "Inoculo",  titulo = "Medias Estimadas de Gfe in vivo")
 VivoGfe$grafico
 VivoGfe$medias
 
 #Pesos secos: No se obbservan efectos sobre el desarrollo de la planta
 VivoPStotal <- analisis_interaccion_gamma(
-  data = Dvivo, x = "Cu", y = "PStotal",  grupo = "Inoculo",  titulo = "Medias Estimadas de peso seco total")
+  data = Dvivo, x = "Cu", y = "PStotal",  grupo = "Inoculo",  titulo = "Medias Estimadas de peso seco total in vivo")
 VivoPStotal$grafico
 VivoPStotal$medias
 

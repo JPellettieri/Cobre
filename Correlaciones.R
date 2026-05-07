@@ -31,7 +31,8 @@ res <- rcorr(as.matrix(D_num), type = "spearman")
 res
 cor_mat <- res$r      # correlaciones
 p_mat   <- res$P      # p-values
-
+# p_filtrada <- p_mat
+# p_filtrada[p_filtrada >= 0.1] <- NA
 threshold_r <- 0.2 #la correlacion minma necesaria para que se grafique en el mapa
 threshold_p <- 0.05   # p valor marginal como minimo
 
@@ -87,7 +88,7 @@ library(dplyr)
 
 D_VIVO <- DvivoInc[, sapply(DvivoInc, is.numeric)]
 D_VIVO <- D_VIVO[, colSums(is.na(D_VIVO)) < nrow(D_VIVO)] # eliminar columnas completamente vacías
-D_VIVO <- subset(D_VIVO, select = -c(id,PStotal,`largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal))# eliminar columnas `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal 
+D_VIVO <- subset(D_VIVO, select = -c(EE,BCRaiz,BCTallo, `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal ))# eliminar columnas `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal 
 colnames(D_VIVO) <- make.names(trimws(colnames(D_VIVO)))
 res <- rcorr(as.matrix(D_VIVO), type = "spearman")
 res

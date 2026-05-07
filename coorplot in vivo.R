@@ -167,6 +167,33 @@ corrplot(cor_VRVitro,
          tl.srt = 45,
          title= "In vitro")
 
+corrplot(cor_VRVitro, 
+         method = "color", 
+         type = "upper",
+         
+         # Paleta más suave y perceptualmente equilibrada
+         col = colorRampPalette(c("#B2182B", "#F7F7F7", "#2166AC"))(200),
+         
+         # Mostrar coeficientes con mejor legibilidad
+         addCoef.col = "black",
+         number.cex = 0.7,
+         
+         # Etiquetas
+         tl.col = "black", 
+         tl.srt = 45,
+         tl.cex = 0.8,
+         
+         # Mejor separación visual
+         diag = FALSE,
+         
+         # Márgenes para evitar que el título se superponga
+         mar = c(0, 0, 2, 0),
+         title = "In vitro",
+         
+         # Opcional: ocultar correlaciones débiles
+         # insig = "blank"
+)
+
 #Graficos de barras
 DVitro%>%
   mutate (Inoculo = as.character(Inoculo))

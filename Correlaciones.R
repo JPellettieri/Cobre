@@ -31,8 +31,12 @@ res <- rcorr(as.matrix(D_num), type = "spearman")
 res
 cor_mat <- res$r      # correlaciones
 p_mat   <- res$P      # p-values
-# p_filtrada <- p_mat
-# p_filtrada[p_filtrada >= 0.1] <- NA
+#para el coorplot
+ # p_filtrada <- p_mat
+ # p_filtrada[p_filtrada >= 0.1] <- NA
+ # orden_vars <- c(   "Frec",   "Int",   "Arb",   "Vesic",   "EsporasS",   "EsporasMM",   "EsporasIntraRad",   "MicelioMM",   "MicelioS", "PSuelo", "CuSuelo", "Fe","gt","gfe" )
+ # p_filtrada <- p_filtrada[orden_vars, orden_vars]
+ 
 threshold_r <- 0.2 #la correlacion minma necesaria para que se grafique en el mapa
 threshold_p <- 0.05   # p valor marginal como minimo
 

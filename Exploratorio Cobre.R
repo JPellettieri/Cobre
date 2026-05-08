@@ -13,11 +13,12 @@ Datos <- Datos %>%
 
 Dvivo <- Datos%>% filter(Medio == "in vivo")
 VRVivo <- Dvivo[, c("CuSuelo","PSuelo", "CuRaiz", "PRaiz", "CuVastago", "PVastago", "BCRaiz" , "BCTallo", "FT",  
-                    "Frec", "Int", "Lhif", "gt", "gfe","adherido", "p seco raiz", "p s aereo" , "PStotal")]
+                    "Frec", "Int", "Lhif", "gt", "gfe","adherido", "p seco raiz", "p s aereo" )]
 summary(Dvivo)
 
 #matriz de correlacion
 cor_VRVivo <- cor(VRVivo, use = "complete.obs", method = "pearson")
+
 
 corrplot(cor_VRVivo, 
          method = "color", 

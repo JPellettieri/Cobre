@@ -92,7 +92,7 @@ library(dplyr)
 
 D_VIVO <- DvivoInc[, sapply(DvivoInc, is.numeric)]
 D_VIVO <- D_VIVO[, colSums(is.na(D_VIVO)) < nrow(D_VIVO)] # eliminar columnas completamente vacías
-D_VIVO <- subset(D_VIVO, select = -c(EE,BCRaiz,BCTallo, `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal ))# eliminar columnas `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal 
+D_VIVO <- subset(D_VIVO, select = -c(EE, `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal ))# eliminar columnas `largo vasta`, id, `pf raiz`, `pf aer`,`RAIZ+TIERRA`,PStotal  BCRaiz,BCTallo
 colnames(D_VIVO) <- make.names(trimws(colnames(D_VIVO)))
 res <- rcorr(as.matrix(D_VIVO), type = "spearman")
 res
@@ -101,6 +101,20 @@ p_mat   <- res$P      # p-values
 
 threshold_r <- 0.2
 threshold_p <- 0.05   # p valor marginal como minimo
+#para el coorplot
+p_filtradavivo <- p_mat
+p_filtradavivo[p_filtradavivo >= 0.1] <- NA
+orden_vars <- c(
+  "CuSuelo","PSuelo",
+  "CuRaiz","PRaiz","BCRaiz" , "BCTallo",
+  "CuVastago","PVastago",
+  "FT","Frec","Int",
+  "Lhif","gt","gfe",
+  "adherido",
+  "p.seco.raiz",
+  "p.s.aereo"
+)
+p_filtradavivo <- p_filtradavivo[orden_vars, orden_vars]
 
 valid <- abs(cor_mat) > threshold_r & p_mat < threshold_p
 #Filtro la matriz

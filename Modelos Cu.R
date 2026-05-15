@@ -303,6 +303,11 @@ VivoCs <- analisis_interaccion_gamma(
 VivoCs$grafico
 VivoCs$medias
 
+VivoPs <- analisis_interaccion_gamma(
+  data = Dvivo, x = "Cu", y = "PSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de Fósforo en suelo in vivo")
+VivoPs$grafico
+VivoPs$medias
+
 VivoEE <- analisis_interaccion_gamma(
   data = Dvivo, x = "Cu", y = "EE",  grupo = "Inoculo",  titulo = "Medias Estimadas de Eficiencia de extracion ")
 VivoEE$grafico
@@ -341,29 +346,29 @@ VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Int", 
 VitroInt$grafico
 VitroInt$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Arb",  titulo = "Arb %")
-VitroInt$grafico
-VitroInt$medias
+VitroArb <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Arb",  titulo = "Arb %")
+VitroArb$grafico
+VitroArb$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Vesic",  titulo = "Vesiculas %")
-VitroInt$grafico
-VitroInt$medias
+VitroVesic <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Vesic",  titulo = "Vesiculas %")
+VitroVesic$grafico
+VitroVesic$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Entrada",  titulo = "Entrada")
-VitroInt$grafico
-VitroInt$medias
+VitroEnt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "Entrada",  titulo = "Entrada")
+VitroEnt$grafico
+VitroEnt$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioExtra",  titulo = "Micelio Extraradicular")
-VitroInt$grafico #El darma da horrible
-VitroInt$medias
+VitroExt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioExtra",  titulo = "Micelio Extraradicular")
+VitroExt$grafico #El darma da horrible
+VitroExt$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioMM",  titulo = "MicelioMM")
-VitroInt$grafico
-VitroInt$medias
+VitroMM <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioMM",  titulo = "MicelioMM")
+VitroMM$grafico
+VitroMM$medias
 
-VitroInt <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioS",  titulo = "MicelioS")
-VitroInt$grafico
-VitroInt$medias
+VitroMS <- analisis_unifactorial_gamma (data = DvitroInc, x = "Cu", y = "MicelioS",  titulo = "MicelioS")
+VitroMS$grafico
+VitroMS$medias
 
 VitroCuS <- analisis_interaccion_gamma(
   data = Dvitro, x = "Cu", y = "LargoRaizMM",  grupo = "Inoculo",  titulo = "LargoRaizMM In vitro")
@@ -431,4 +436,5 @@ VitroPSuelo <- analisis_interaccion_gamma(
   data = Dvitro, x = "Cu", y = "PSuelo",  grupo = "Inoculo",  titulo = "Medias Estimadas de fosforo en suelo in vitro")
 VitroPSuelo$grafico
 VitroPSuelo$medias # sig menor en cU2 inooculado contrastando con sin inocular
+
 

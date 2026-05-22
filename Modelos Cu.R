@@ -16,7 +16,8 @@ Datos$Inoculo <- as.factor(Datos$Inoculo)
 Datos$Cu <- as.factor(Datos$Cu)
 Datos <- Datos %>%
   mutate(across(-c(id, Medio, Inoculo, Cu), as.numeric))
-
+DatosInc<- Datos%>% filter(Inoculo == 1)
+DatosInc
 Dvivo <- Datos%>% filter(Medio == "in vivo")
 DvivoInc <- Dvivo%>% filter(Inoculo == 1)
 

@@ -1,0 +1,103 @@
+"system","response","Inoc","Dose","mean","lcl","ucl"
+"in vivo","gt","NI","Cu0","gt",29.7034817777999,43.8242766090806
+"in vivo","gt","GC3","Cu0","gt",38.4741948830887,56.7645157386342
+"in vivo","gt","NI","Cu1","gt",35.7845095511059,52.7961757688634
+"in vivo","gt","GC3","Cu1","gt",36.9539379500518,54.5215409638696
+"in vivo","gt","NI","Cu2","gt",31.6915100827587,46.7573974800592
+"in vivo","gt","GC3","Cu2","gt",46.3093652856921,68.3244627364842
+"in vivo","gfe","NI","Cu0","gfe",44.8554087909526,68.6083175123299
+"in vivo","gfe","GC3","Cu0","gfe",65.2255308894238,99.7653137891919
+"in vivo","gfe","NI","Cu1","gfe",39.468450448322,60.3687281660515
+"in vivo","gfe","GC3","Cu1","gfe",74.9222439599337,114.596862249
+"in vivo","gfe","NI","Cu2","gfe",36.4342817352408,55.7278338778461
+"in vivo","gfe","GC3","Cu2","gfe",72.0822266087942,110.252930994787
+"in vivo","p seco raiz","NI","Cu0","p seco raiz",0.752659108982635,1.30540770569173
+"in vivo","p seco raiz","GC3","Cu0","p seco raiz",0.569757383465026,0.988183986446858
+"in vivo","p seco raiz","NI","Cu1","p seco raiz",0.426890918883271,0.740397197548432
+"in vivo","p seco raiz","GC3","Cu1","p seco raiz",0.576078740454917,0.999147712291066
+"in vivo","p seco raiz","NI","Cu2","p seco raiz",0.609356034158538,1.05686366245606
+"in vivo","p seco raiz","GC3","Cu2","p seco raiz",0.5049682200824,0.875814027569563
+"in vivo","p s aereo","NI","Cu0","p s aereo",8.96742732081064,13.8624190478817
+"in vivo","p s aereo","GC3","Cu0","p s aereo",7.53272903032438,11.6445712529132
+"in vivo","p s aereo","NI","Cu1","p s aereo",7.15294176002152,11.0574719543472
+"in vivo","p s aereo","GC3","Cu1","p s aereo",8.59437600643415,13.2857326180682
+"in vivo","p s aereo","NI","Cu2","p s aereo",8.48929509397087,13.1232918655104
+"in vivo","p s aereo","GC3","Cu2","p s aereo",9.2012755818034,14.223916551182
+"in vivo","PStotal","NI","Cu0","PStotal",9.80177038137701,15.0376905110603
+"in vivo","PStotal","GC3","Cu0","PStotal",8.16714961713495,12.5298862880265
+"in vivo","PStotal","NI","Cu1","PStotal",7.63401623935034,11.7119631553368
+"in vivo","PStotal","GC3","Cu1","PStotal",9.23955223046437,14.1751460701919
+"in vivo","PStotal","NI","Cu2","PStotal",9.16945409231615,14.0676028340356
+"in vivo","PStotal","GC3","Cu2","PStotal",9.77314983433002,14.9937814097445
+"in vivo","adherido","NI","Cu0","adherido",212.928749457153,516.332251541065
+"in vivo","adherido","GC3","Cu0","adherido",212.016862783823,514.121011863983
+"in vivo","adherido","NI","Cu1","adherido",303.560331261037,736.105339077768
+"in vivo","adherido","GC3","Cu1","adherido",227.669847622591,552.078032349682
+"in vivo","adherido","NI","Cu2","adherido",237.151541977103,575.070252080324
+"in vivo","adherido","GC3","Cu2","adherido",353.137747459743,856.325924586902
+"in vivo","CuSuelo","NI","Cu0","CuSuelo",30.488901414785,79.3941364783365
+"in vivo","CuSuelo","GC3","Cu0","CuSuelo",41.4419772900149,107.916318667357
+"in vivo","CuSuelo","NI","Cu2","CuSuelo",49.4515108316154,128.773416483983
+"in vivo","CuSuelo","GC3","Cu2","CuSuelo",85.7649241500277,258.974571068315
+"in vivo","CuRaiz","NI","Cu0","CuRaiz",11.5153419773262,19.5391505039995
+"in vivo","CuRaiz","GC3","Cu0","CuRaiz",10.3169604135538,18.99784356471
+"in vivo","CuRaiz","NI","Cu2","CuRaiz",9.4041959481498,15.9569729115998
+"in vivo","CuRaiz","GC3","Cu2","CuRaiz",14.2472310472885,26.2351173036471
+"in vivo","CuVastago","NI","Cu0","CuVastago",17.1707470967212,48.978649342622
+"in vivo","CuVastago","GC3","Cu0","CuVastago",13.925942366634,34.5187142346517
+"in vivo","CuVastago","NI","Cu2","CuVastago",19.4518579237071,48.2159919468188
+"in vivo","CuVastago","GC3","Cu2","CuVastago",18.6509839043027,53.2009466680786
+"in vivo","PSuelo","NI","Cu0","PSuelo",639.460354469409,704.567527096931
+"in vivo","PSuelo","GC3","Cu0","PSuelo",605.235447419864,666.857983484914
+"in vivo","PSuelo","NI","Cu2","PSuelo",633.244139619303,697.718403309615
+"in vivo","PSuelo","GC3","Cu2","PSuelo",615.463963988367,688.376305989553
+"in vivo","PRaiz","NI","Cu0","PRaiz",124.762658618202,468.433930049943
+"in vivo","PRaiz","GC3","Cu0","PRaiz",68.3292888953867,314.815380912934
+"in vivo","PRaiz","NI","Cu2","PRaiz",325.905352295315,1223.64437156786
+"in vivo","PRaiz","GC3","Cu2","PRaiz",332.639401849814,1532.57851344433
+"in vivo","PVastago","NI","Cu0","PVastago",141.528432432186,1782.95465753092
+"in vivo","PVastago","GC3","Cu0","PVastago",102.3264893622,918.063843649725
+"in vivo","PVastago","NI","Cu2","PVastago",184.872083017283,1658.65531179921
+"in vivo","PVastago","GC3","Cu2","PVastago",114.199453052312,1438.66814044354
+"in vivo","BCRaiz","NI","Cu0","BCRaiz",0.184239487442391,0.515918066788602
+"in vivo","BCRaiz","GC3","Cu0","BCRaiz",0.169476790615737,0.556531852078161
+"in vivo","BCRaiz","NI","Cu2","BCRaiz",0.113964856830843,0.31913098236551
+"in vivo","BCRaiz","GC3","Cu2","BCRaiz",0.0775741289560584,0.254739740494333
+"in vivo","BCTallo","NI","Cu0","BCTallo",0.307467717069087,1.02743549172837
+"in vivo","BCTallo","GC3","Cu0","BCTallo",0.216751854474405,0.616199295616303
+"in vivo","BCTallo","NI","Cu2","BCTallo",0.270044259907881,0.767703155961285
+"in vivo","BCTallo","GC3","Cu2","BCTallo",0.123954748343887,0.414207738720587
+"in vivo","FT","NI","Cu0","FT",1.15634904767781,2.9922770313147
+"in vivo","FT","GC3","Cu0","FT",0.792907793190888,2.05180242270289
+"in vivo","FT","NI","Cu2","FT",1.71218021199664,3.90069948338726
+"in vivo","FT","GC3","Cu2","FT",1.0106466964145,2.61524398928531
+"in vitro","gt","NI","Cu0","gt",18.9857274276745,22.3075187012381
+"in vitro","gt","GC3","Cu0","gt",19.9315878692141,24.2830628034292
+"in vitro","gt","NI","Cu1","gt",22.0742506923527,25.9364178702839
+"in vitro","gt","GC3","Cu1","gt",18.0999300907156,22.0515165181294
+"in vitro","gt","NI","Cu2","gt",20.0018649519759,23.5014422373646
+"in vitro","gt","GC3","Cu2","gt",19.8146817238094,23.2815089543872
+"in vitro","gfe","NI","Cu0","gfe",3.22038864379863,7.81178555390898
+"in vitro","gfe","GC3","Cu0","gfe",2.41411828937073,7.14647443010307
+"in vitro","gfe","NI","Cu1","gfe",2.8721841216879,6.96713624089257
+"in vitro","gfe","GC3","Cu1","gfe",3.68331951134468,8.93472972728339
+"in vitro","gfe","NI","Cu2","gfe",2.6702389171497,6.47727218844953
+"in vitro","gfe","GC3","Cu2","gfe",2.40187319683314,5.82629005895711
+"in vitro","LargoRaizMM","NI","Cu0","LargoRaizMM",336.499037108264,736.864523092898
+"in vitro","LargoRaizMM","GC3","Cu0","LargoRaizMM",464.692364429155,1017.5818642531
+"in vitro","LargoRaizMM","NI","Cu1","LargoRaizMM",347.974589421331,659.91209410397
+"in vitro","LargoRaizMM","GC3","Cu1","LargoRaizMM",354.655236797534,672.581524959055
+"in vitro","LargoRaizMM","NI","Cu2","LargoRaizMM",291.818423070645,553.415428945293
+"in vitro","LargoRaizMM","GC3","Cu2","LargoRaizMM",476.092946532387,902.880563367532
+"in vitro","CuSuelo","NI","Cu0","CuSuelo",NA,NA
+"in vitro","CuSuelo","GC3","Cu0","CuSuelo",73.5438596488085,135.973282443329
+"in vitro","CuSuelo","NI","Cu1","CuSuelo",153.80450115802,254.037500963434
+"in vitro","CuSuelo","GC3","Cu1","CuSuelo",122.680487433021,202.630249503823
+"in vitro","CuSuelo","NI","Cu2","CuSuelo",216.311895389188,357.280397645031
+"in vitro","CuSuelo","GC3","Cu2","CuSuelo",232.392635813805,383.840810899219
+"in vitro","PSuelo","NI","Cu0","PSuelo",NA,NA
+"in vitro","PSuelo","GC3","Cu0","PSuelo",387.058185467561,477.70595466598
+"in vitro","PSuelo","NI","Cu1","PSuelo",388.48561459607,461.306942594123
+"in vitro","PSuelo","GC3","Cu1","PSuelo",370.13196351279,439.512913810147
+"in vitro","PSuelo","NI","Cu2","PSuelo",379.308789054429,450.409928202135
+"in vitro","PSuelo","GC3","Cu2","PSuelo",333.424661390357,395.924856294595

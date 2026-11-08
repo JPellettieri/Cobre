@@ -20,10 +20,14 @@ class Ctx {
   }
   commentsConfig() {
     return {
-      children: this.used.map((k, id) => ({
-        id, author: this.author, initials: 'CL', date: new Date('2026-11-06T22:00:00Z'),
-        children: String(this.defs[k]).split('\n').map(t => new Paragraph({ children: [new TextRun({ text: t, font: this.font, size: 20 })] })),
-      })),
+      children: this.used.map((k, id) => {
+        const d = this.defs[k]; const isObj = typeof d === 'object';
+        const author = isObj ? d.a : this.author; const text = isObj ? d.t : String(d);
+        return {
+          id, author, initials: author.split(/\s+/).map(w => w[0]).join('').slice(0, 3).toUpperCase(), date: new Date(isObj ? d.d : '2026-11-07T12:00:00Z'),
+          children: text.split('\n').map(t => new Paragraph({ children: [new TextRun({ text: t, font: this.font, size: 20 })] })),
+        };
+      }),
     };
   }
   runs(text, base = {}) {

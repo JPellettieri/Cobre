@@ -31,8 +31,15 @@ D <- D %>% mutate(ratio_sr = `p s aereo` / `p seco raiz`,
 vitro <- filter(D, System == "in vitro"); vivo <- filter(D, System == "in vivo")
 
 # ---- Diseno unico -----------------------------------------------------------
-GC3C <- "#0072B2"; WIC <- "#BDBDBD"; INK <- "grey20"
-FILL <- c(GC3 = GC3C, "W/I" = WIC)
+# Paleta de las figuras del equipo ("Figuras INGLES.svg", Set2): naranja = in vitro, verde = in vivo,
+# gris = W/I. El tono se oscurece con la dosis (Cu0 claro -> Cu2 oscuro). Cu0 = color claro del equipo;
+# los pasos se ampliaron y el gris se aclaro para que GC3 y W/I se distingan con daltonismo
+# (verde oscuro vs gris original: dE protan 3.0; con estos valores >= 12, validate_palette.js).
+INK <- "grey20"
+RAMP <- list("in vitro" = c(Cu0 = "#FF9955", Cu1 = "#E86A17", Cu2 = "#B84A00"),
+             "in vivo"  = c(Cu0 = "#66C2A5", Cu1 = "#3F9E81", Cu2 = "#2B6E59"),
+             "W/I"      = c(Cu0 = "#DEDEDE", Cu1 = "#CFCFCF", Cu2 = "#BDBDBD"))
+pal2 <- function(sys) { v <- c(setNames(RAMP[[sys]], paste0("GC3.", names(RAMP[[sys]]))), setNames(RAMP[["W/I"]], paste0("W/I.", names(RAMP[["W/I"]])))); v }
 theme_ms <- function(b = 8.5) theme_classic(base_size = b, base_family = "sans") + theme(
   axis.line = element_line(linewidth = .35, colour = INK), axis.ticks = element_line(linewidth = .35, colour = INK),
   axis.text = element_text(colour = "black"), axis.title = element_text(colour = "black"),
@@ -69,8 +76,10 @@ bar1 <- function(dat, y, title, ylab, lims = NULL, scale = 1) {   # solo GC3: le
   s <- d %>% group_by(Dose) %>% summarise(m = mean(val), e = se(val), top = max(c(m + ifelse(is.na(e), 0, e), val)), .groups = "drop")
   L <- letters_tukey(dat, y)
   s <- left_join(s, L$let, by = "Dose")
+  sys <- unique(dat$System)
   ggplot(s, aes(Dose, m)) +
-    geom_col(fill = GC3C, colour = INK, linewidth = .3, width = .62) +
+    geom_col(aes(fill = Dose), colour = INK, linewidth = .3, width = .62, show.legend = FALSE) +
+    scale_fill_manual(values = RAMP[[sys]]) +
     geom_errorbar(aes(ymin = m - e, ymax = m + e), width = .18, linewidth = .4, colour = INK, na.rm = TRUE) +
     geom_point(data = d, aes(Dose, val), shape = 21, size = 1.2, stroke = .3, fill = "white", colour = INK, position = position_jitter(width = .12, height = 0, seed = 3)) +
     geom_text(aes(y = top, label = lab), vjust = -.5, size = 2.9) +
@@ -83,13 +92,15 @@ bar2 <- function(dat, y, title, ylab, doses = c("Cu0", "Cu1", "Cu2")) {  # facto
   ct <- contr_inoc(dat %>% filter(Dose %in% doses), y)$ct %>% transmute(Dose = factor(as.character(Dose), levels = doses), lab = stars(p))
   tp <- s %>% group_by(Dose) %>% summarise(top = max(top), .groups = "drop") %>% left_join(ct, by = "Dose")
   pd <- position_dodge(.72)
-  ggplot(s, aes(Dose, m, fill = Inoc)) +
+  sys <- unique(dat$System); s$key <- paste(s$Inoc, s$Dose, sep = ".")
+  top_d <- tail(doses, 1)
+  ggplot(s, aes(Dose, m, fill = key, group = Inoc)) +
     geom_col(colour = INK, linewidth = .3, width = .66, position = pd) +
     geom_errorbar(aes(ymin = m - e, ymax = m + e), width = .18, linewidth = .4, colour = INK, position = pd, na.rm = TRUE) +
     geom_point(data = d, aes(Dose, val, group = Inoc), shape = 21, size = 1.2, stroke = .3, fill = "white", colour = INK,
                position = position_jitterdodge(jitter.width = .1, dodge.width = .72, seed = 3), inherit.aes = FALSE) +
     geom_text(data = tp, aes(x = Dose, y = top, label = lab), inherit.aes = FALSE, vjust = -.15, size = 3.4) +
-    scale_fill_manual(values = FILL, drop = FALSE) +
+    scale_fill_manual(values = pal2(sys), breaks = c(paste0("GC3.", top_d), paste0("W/I.", top_d)), labels = c(paste0("GC3 (", sys, ")"), "W/I")) +
     scale_y_continuous(expand = expansion(mult = c(0, .13)), limits = c(0, NA)) +
     labs(x = NULL, y = ylab, title = title) + theme_ms()
 }
@@ -118,7 +129,7 @@ tes <- data.frame(Inoc = factor(rep(c("GC3", "W/I"), each = 4), levels = c("GC3"
 inset <- function(y) { s <- tes %>% group_by(Inoc) %>% summarise(m = mean(.data[[y]]), e = se(.data[[y]]), .groups = "drop")
   ggplot(s, aes(Inoc, m, fill = Inoc)) + geom_col(colour = INK, linewidth = .25, width = .6) +
     geom_errorbar(aes(ymin = m - e, ymax = m + e), width = .2, linewidth = .3, colour = INK) +
-    scale_fill_manual(values = FILL, guide = "none") + scale_y_continuous(expand = expansion(mult = c(0, .1)), limits = c(0, NA), breaks = c(0, 50, 100)) +
+    scale_fill_manual(values = c(GC3 = RAMP[["in vitro"]][["Cu0"]], "W/I" = RAMP[["W/I"]][["Cu0"]]), guide = "none") + scale_y_continuous(expand = expansion(mult = c(0, .1)), limits = c(0, NA), breaks = c(0, 50, 100)) +
     labs(x = NULL, y = NULL, title = "In vitro, no Cu") + theme_ms(6.5) + theme(plot.margin = margin(0, 0, 0, 0), plot.background = element_rect(fill = "white", colour = NA), plot.title = element_text(size = 6.5, margin = margin(b = 1))) }
 gtv <- suppressMessages(bar2(vivo, "gt", "T-GRSP, in vivo", UG) + scale_y_continuous(limits = c(0, 118), expand = expansion(mult = c(0, 0)))) + inset_element(inset("gt"), .02, .68, .34, 1.0, align_to = "panel")
 gev <- suppressMessages(bar2(vivo, "gfe", "EE-GRSP, in vivo", UG) + scale_y_continuous(limits = c(0, 170), expand = expansion(mult = c(0, 0)))) + inset_element(inset("gfe"), .02, .68, .34, 1.0, align_to = "panel")
